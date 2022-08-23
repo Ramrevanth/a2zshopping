@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Product from '../Components/Product';
+import { Helmet } from 'react-helmet-async';
 // import logger from 'use-reducer-logger';
 // import data from '../data';
 const reducer = (state, action) => {
@@ -41,6 +42,9 @@ function HomeScreen() {
   }, []);
   return (
     <div>
+      <Helmet>
+        <title>a2zshopping</title>
+      </Helmet>
       <h1>Featured Products</h1>
 
       <div className="products">

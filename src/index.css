@@ -50,3 +50,6 @@ main {
 .text-centerd {
   text-align: center;
 }
+.img-large {
+  min-width: 100%;
+}
