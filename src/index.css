@@ -22,6 +22,11 @@ header a {
 main {
   flex: 1;
 }
+.btn-primary {
+  background-color: #ed9c23;
+  border: black;
+  color: black;
+}
 .products {
   display: flex;
   flex-wrap: wrap;
@@ -38,6 +43,9 @@ main {
 }
 .product-info {
   padding: 1rem;
+}
+.rating span {
+  color: #ed9c23;
 }
 .text-centerd {
   text-align: center;
