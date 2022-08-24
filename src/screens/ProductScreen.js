@@ -50,10 +50,18 @@ function ProductScreen() {
   }, [slug]);
 
   const { state, dispatch: cxtDispatch } = useContext(Store);
-  const addToCartHandle = () => {
+  const { cart } = state;
+  const addToCartHandle = async () => {
+    const existItem = cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInstock < quantity) {
+      window.alert('Sorry product not available');
+      return;
+    }
     cxtDispatch({
       type: 'CART_ADD_ITEM',
-      payload: { ...product, quantity: 1 },
+      payload: { ...product, quantity },
     });
   };
   return loading ? (
