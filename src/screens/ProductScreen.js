@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import Card from 'react-bootstrap/card';
 import Row from 'react-bootstrap/Row';
@@ -9,6 +9,10 @@ import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Rating from '../Components/Rating';
 import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../Components/LoadingBox';
+import MessageBox from '../Components/MessageBox';
+import { getError } from '../utils';
+import { Store } from '../Store';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -39,15 +43,23 @@ function ProductScreen() {
         const result = await axios.get(`/api/products/slug/${slug}`);
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: err.message });
+        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
     fetchdata();
   }, [slug]);
+
+  const { state, dispatch: cxtDispatch } = useContext(Store);
+  const addToCartHandle = () => {
+    cxtDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...product, quantity: 1 },
+    });
+  };
   return loading ? (
-    <div>loading...</div>
+    <LoadingBox />
   ) : error ? (
-    <div>{error}</div>
+    <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
       <Row>
@@ -100,7 +112,7 @@ function ProductScreen() {
                 {product.countInstock > 0 && (
                   <ListGroup.Item>
                     <div className="d-grid">
-                      <Button>Add to cart</Button>
+                      <Button onClick={addToCartHandle}>Add to cart</Button>
                     </div>
                   </ListGroup.Item>
                 )}
