@@ -49,7 +49,7 @@ export default function OrderHistroyScreen() {
       <Helmet>
         <title>Order Histroy</title>
       </Helmet>
-      <h1>Ordered Histroy</h1>
+      <h1>Order Histroy</h1>
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
